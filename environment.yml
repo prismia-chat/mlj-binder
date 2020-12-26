@@ -1,0 +1,9 @@
+name: julia-binder
+channels:
+  - defaults
+dependencies:
+  - numpy
+  - matplotlib
+  - pandas
+  - scipy
+  - sympy
