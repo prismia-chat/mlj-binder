@@ -51,6 +51,7 @@ excluded = [
   "StatsBase",
   "PackageCompiler",
   "Ipopt",
+  "SpecialFunctions",
 ]
 
 prj_sysimage = get(Pkg.TOML.parsefile(prj_file), "deps", Dict{String,Any}())
