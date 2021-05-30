@@ -1,3 +1,9 @@
 wget -qO- \
 "https://github.com/yihui/tinytex/raw/master/tools/install-unx.sh" |
 sh
+
+julia build_sysimage.jl
+
+export PYTHON="/srv/conda/envs/notebook/bin/python"
+
+julia -e 'using Pkg; Pkg.build("PyCall")'
