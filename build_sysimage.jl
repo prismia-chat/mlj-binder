@@ -4,30 +4,7 @@ import Pkg
 
 srcdir = @__DIR__
 
-juliadir = dirname(Sys.BINDIR)
-
-# Store packages in system location, typically "/path/to/julia/local/share/julia":
-if any(s -> startswith(s, juliadir), DEPOT_PATH)
-    filter!(s -> startswith(s, juliadir), DEPOT_PATH)
-end
-
-# Restrict load path to stdlib and current project:
-if any(s -> s == "@stdlib", LOAD_PATH)
-    filter!(s -> s == "@stdlib", LOAD_PATH)
-    pushfirst!(LOAD_PATH, "@")
-end
-
-sysprjdir = joinpath(first(DEPOT_PATH), "environments", "v$(VERSION.major).$(VERSION.minor)")
-mkpath(sysprjdir)
-cp(joinpath(srcdir, "Project.toml"), joinpath(sysprjdir, "Project.toml"), force = true)
-if ispath(joinpath(srcdir, "Manifest.toml"))
-    cp(joinpath(srcdir, "Manifest.toml"), joinpath(sysprjdir, "Manifest.toml"), force = true)
-end
-
-Pkg.activate(sysprjdir)
-
-# IJulia should always be part of custom default system image
-Pkg.add("IJulia", preserve = Pkg.PRESERVE_ALL)
+Pkg.activate(srcdir)
 
 # Need to have PackageCompiler installed
 Pkg.add("PackageCompiler", preserve = Pkg.PRESERVE_ALL)
@@ -62,12 +39,14 @@ sysimg_pkgs = filter(x -> x ∉ excluded, sort(collect(keys(prj_sysimage))))
 
 import PackageCompiler, Libdl
 
-sysimage_path = nothing
+sysimage_path = joinpath(srcdir, "JuliaSysimage." * Libdl.dlext)
 
 PackageCompiler.create_sysimage(
     Symbol.(sysimg_pkgs),
     sysimage_path = sysimage_path,
     precompile_execution_file = joinpath(srcdir, "precompile_exec.jl"),
     cpu_target = PackageCompiler.default_app_cpu_target(),
-    replace_default = true
+    replace_default = false
 )
+
+@info "Created custom Julia system image"

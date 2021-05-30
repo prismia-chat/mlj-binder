@@ -4,6 +4,7 @@ sh
 
 julia build_sysimage.jl
 
-export PYTHON="/srv/conda/envs/notebook/bin/python"
+julia -e "using IJulia; installkernel(\"julia\", \"--project=${REPO_DIR}\", \"--sysimage=${REPO_DIR}/JuliaSysimage.so\")"
 
-julia -e 'using Pkg; Pkg.build("PyCall")'
+echo 'export PYTHON="/srv/conda/envs/notebook/bin/python"' >> ~/.bash_profile
+julia -e 'ENV["PYTHON"]="/srv/conda/envs/notebook/bin/python"; using Pkg; Pkg.build("PyCall")'
