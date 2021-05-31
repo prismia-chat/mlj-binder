@@ -1376,7 +1376,9 @@ version = "1.18.0+4"
 
 [[WebIO]]
 deps = ["AssetRegistry", "Base64", "Distributed", "FunctionalCollections", "JSON", "Logging", "Observables", "Pkg", "Random", "Requires", "Sockets", "UUIDs", "WebSockets", "Widgets"]
-git-tree-sha1 = "adc25e225bc334c7df6eec3b39496edfc451cc38"
+git-tree-sha1 = "1d73bd48cb83cc4b05479e8bb203d6235997ca0e"
+repo-rev = "master"
+repo-url = "git@github.com:sswatson/WebIO.jl.git"
 uuid = "0f1e0344-ec1d-5b48-a673-e5cf874b6c29"
 version = "0.8.15"
 
